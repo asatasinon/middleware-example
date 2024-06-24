@@ -1,0 +1,27 @@
+server:
+  port: 9099
+#
+#logging:
+#  config: classpath:log4j2-spring.xml
+
+spring:
+  application:
+    name: example-server
+  data:
+    redis:
+      host: 10.5.28.30
+      port: 6379
+#      cluster:
+#        max-redirects: 3
+#        nodes: 10.5.28.30:6379
+      database: 2
+      timeout: 10000
+      lettuce:
+        cluster:
+          refresh:
+            adaptive: true
+            period: 60
+        pool:
+          max-active: 8
+          max-wait: 50
+          min-idle: 8
