@@ -1,6 +1,10 @@
-package com.raven.middleware.example.init;
+package com.raven.middleware.example.server.init;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
+
+import lombok.extern.slf4j.Slf4j;
 
 import com.raven.middleware.example.api.IDataInit;
 
@@ -11,8 +15,13 @@ import com.raven.middleware.example.api.IDataInit;
  */
 
 
+@Slf4j
 @Component
 public class RedisDataInit implements IDataInit {
+
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     @Override
     public void preInitData() throws Exception {
 
@@ -21,7 +30,7 @@ public class RedisDataInit implements IDataInit {
     @Override
     public void postInitData() throws Exception {
 
-
+        log.info("RedisDataInit postInitData");
     }
 
     @Override

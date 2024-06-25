@@ -12,7 +12,6 @@
     <modules>
         <module>example-api</module>
         <module>example-database</module>
-        <module>example-init</module>
         <module>example-server</module>
         <module>example-util</module>
     </modules>
@@ -55,6 +54,25 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <dependency>
+                <groupId>com.raven.middleware.example</groupId>
+                <artifactId>example-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.raven.middleware.example</groupId>
+                <artifactId>example-database</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.raven.middleware.example</groupId>
+                <artifactId>example-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.fasterxml.jackson</groupId>
                 <artifactId>jackson-bom</artifactId>

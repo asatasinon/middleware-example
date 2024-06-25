@@ -10,8 +10,9 @@
         <artifactId>middleware-example</artifactId>
         <version>1.0.0</version>
     </parent>
+
     <artifactId>example-server</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>example-server</name>
     <description>example-server</description>
     <properties>
@@ -60,6 +61,13 @@
             <artifactId>lombok</artifactId>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.raven.middleware.example</groupId>
+            <artifactId>example-api</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 
