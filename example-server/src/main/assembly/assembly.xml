@@ -19,8 +19,9 @@
             <outputDirectory>conf</outputDirectory>
             <fileMode>0644</fileMode>
             <includes>
-                <include>application.yml</include>
-                <include>application-*.yml</include>
+<!--                <include>application.yml</include>-->
+<!--                <include>application-*.yml</include>-->
+                <include>*.yml</include>
                 <include>*.xml</include>
                 <include>*.properties</include>
                 <!--可以自己添加配置文件-->
