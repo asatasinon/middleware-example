@@ -10,7 +10,7 @@
         <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
         <!--<property name="LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />-->
         <!-- 定义日志存储的路径 -->
-        <property name="FILE_PATH" value="../middleware-example/logs/middleware-example/" />
+        <property name="FILE_PATH" value="../middleware-example/logs/" />
         <property name="FILE_NAME" value="middleware-example" />
         <Property name="CHARSET" value="UTF-8"/>
         <Property name="LOG_PATTERN" value="%-d{yyyy-MM-dd HH:mm:ss.SSS}|%p|%pid|%t|{%c{1.}.%M(%F:%L)}|%m%n"/>
@@ -21,8 +21,8 @@
 
         <console name="Console" target="SYSTEM_OUT">
             <!--输出日志的格式-->
-<!--            <PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}} %style{[%t]}{blue} %highlight{%-5level:} %style{%msg%n%throwable}{green}%n"/>-->
-            <PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}} %highlight{[%-5level]} %style{[%t]}{bright,cyan} - %style{%msg}%n"/>
+<!--            <PatternLayout pattern="%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{white} %style{[%t]}{blue} %highlight{%-5level:} %style{%msg%n%throwable}{green}%n"/>-->
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{[%-5level]} %style{[%t]}{bright,cyan} - %msg%n"/>
 
             <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
