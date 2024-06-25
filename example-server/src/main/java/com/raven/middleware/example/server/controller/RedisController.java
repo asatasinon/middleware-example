@@ -1,11 +1,11 @@
 package com.raven.middleware.example.server.controller;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import jakarta.annotation.Resource;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
 import com.raven.middleware.example.server.service.RedisService;
@@ -29,6 +29,10 @@ public class RedisController {
     public String shoppingCart() {
 
         redisService.set("shoppingCart", "shoppingCart");
+        log.debug("shoppingCart:{}", redisService.get("shoppingCart"));
+        log.info("shoppingCart:{}", redisService.get("shoppingCart"));
+        log.warn("shoppingCart:{}", redisService.get("shoppingCart"));
+        log.error("shoppingCart:{}", redisService.get("shoppingCart"));
         return "success";
     }
 
