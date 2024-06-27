@@ -27,9 +27,11 @@ public class ReadyEventListener implements ApplicationListener<ApplicationReadyE
     public void onApplicationEvent(ApplicationReadyEvent event) {
         for (IDataInit dataInit : dataInits) {
             try {
-                dataInit.preInitData();
-                dataInit.postInitData();
-                dataInit.afterInitData();
+                if (dataInit.checkInitialized()) {
+                    dataInit.preInitData();
+                    dataInit.postInitData();
+                    dataInit.afterInitData();
+                }
             } catch (Exception e) {
                 log.error("class: {} init data error, ", dataInit.getClass().getSimpleName(), e);
             }

@@ -47,6 +47,11 @@ public class RedisService {
         redisTemplate.opsForValue().set(key, value);
     }
 
+    public Boolean setNx(String key, String value) {
+        return redisTemplate.opsForValue().setIfAbsent(key, value);
+    }
+
+
     public void set(String key, String value, long timeoutSeconds) {
         redisTemplate.opsForValue().set(key, value, timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS);
     }

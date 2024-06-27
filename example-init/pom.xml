@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>example-init</artifactId>
+    <version>${parent.version}</version>
 
     <dependencies>
         <dependency>

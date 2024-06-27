@@ -12,9 +12,11 @@
     </parent>
 
     <artifactId>example-server</artifactId>
-    <version>1.0.0</version>
+    <version>${parent.version}</version>
     <name>example-server</name>
     <description>example-server</description>
+
+
     <properties>
 
     </properties>

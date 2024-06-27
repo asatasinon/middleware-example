@@ -18,6 +18,8 @@ import com.raven.middleware.example.database.service.RedisService;
 @Component
 public class RedisDataInit implements IDataInit {
 
+    // 全局计数器
+    public static final String DATA_HAS_INITIALIZED = "data:has:initialized";
 
     // 全局计数器
     public static final String REDIS_GLOBAL_COUNTER_KEY = "counter:001";
@@ -34,6 +36,13 @@ public class RedisDataInit implements IDataInit {
 
     @Autowired
     private RedisService redisService;
+
+    @Override
+    public boolean checkInitialized() {
+        boolean setNxSuccess = redisService.setNx(DATA_HAS_INITIALIZED, "1");
+        log.info("RedisDataInit preInitData hasInit:{}", !setNxSuccess);
+        return setNxSuccess;
+    }
 
     @Override
     public void preInitData() throws Exception {
@@ -55,8 +64,6 @@ public class RedisDataInit implements IDataInit {
     }
     @Override
     public void afterInitData() throws Exception {
-
         log.info("RedisDataInit afterInitData");
-
     }
 }

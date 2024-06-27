@@ -6,6 +6,10 @@ package com.raven.middleware.example.api;
  * @description
  */
 public interface IDataInit {
+
+    default boolean checkInitialized() {
+        return false;
+    }
     void preInitData() throws Exception;
     void postInitData() throws Exception;
     void afterInitData() throws Exception;

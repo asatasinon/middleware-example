@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>example-database</artifactId>
-    <version>1.0.0</version>
+    <version>${parent.version}</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
