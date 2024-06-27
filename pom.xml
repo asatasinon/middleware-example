@@ -14,6 +14,7 @@
         <module>example-database</module>
         <module>example-server</module>
         <module>example-util</module>
+        <module>example-init</module>
     </modules>
 
     <properties>
@@ -31,6 +32,24 @@
         <jackjson.version>2.17.1</jackjson.version>
     </properties>
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -68,6 +87,13 @@
                 <artifactId>example-database</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.raven.middleware.example</groupId>
+                <artifactId>example-init</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.raven.middleware.example</groupId>

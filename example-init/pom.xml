@@ -9,8 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>example-database</artifactId>
-    <version>1.0.0</version>
+    <artifactId>example-init</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -21,8 +20,17 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <groupId>com.raven.middleware.example</groupId>
+            <artifactId>example-api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.raven.middleware.example</groupId>
+            <artifactId>example-database</artifactId>
+        </dependency>
+
     </dependencies>
+
+
+
 </project>

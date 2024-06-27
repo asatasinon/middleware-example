@@ -1,10 +1,15 @@
-package com.raven.middleware.example.server.configuration;
+package com.raven.middleware.example.database.configuration;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import com.raven.middleware.example.database.service.RedisService;
 
 /**
  * @author raven
@@ -14,7 +19,16 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 public class RedisConfiguration {
 
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        // 根据实际情况配置连接工厂，例如使用LettuceConnectionFactory或JedisConnectionFactory
+//        // 默认使用 LettuceConnectionFactory, 这里不用创建 bean
+//        return new LettuceConnectionFactory();
+//    }
+
+
     @Bean
+    @ConditionalOnMissingBean(RedisTemplate.class)
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         StringRedisSerializer serializer = new StringRedisSerializer();
@@ -26,4 +40,9 @@ public class RedisConfiguration {
         return redisTemplate;
     }
 
+    @Bean
+    @ConditionalOnMissingBean(RedisService.class)
+    public RedisService redisService() {
+        return new RedisService();
+    }
 }

@@ -11,7 +11,7 @@
         <!--<property name="LOG_PATTERN" value="%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />-->
         <!-- 定义日志存储的路径 -->
         <property name="FILE_PATH" value="../middleware-example/logs/"/>
-        <property name="FILE_NAME" value="example-server"/>
+        <property name="FILE_NAME" value="example-init"/>
         <Property name="CHARSET" value="UTF-8"/>
         <Property name="LOG_PATTERN" value="%-d{yyyy-MM-dd HH:mm:ss.SSS}|%p|%pid|%t|{%c{1.}.%M(%F:%L)}|%m%n"/>
 

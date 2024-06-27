@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-import com.raven.middleware.example.server.service.RedisService;
+import com.raven.middleware.example.database.service.RedisService;
 
 /**
  * @author raven
