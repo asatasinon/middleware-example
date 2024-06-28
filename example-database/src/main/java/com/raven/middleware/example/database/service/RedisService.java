@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -51,11 +53,20 @@ public class RedisService {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
-
     public void set(String key, String value, long timeoutSeconds) {
         redisTemplate.opsForValue().set(key, value, timeoutSeconds, java.util.concurrent.TimeUnit.SECONDS);
     }
 
+    public Boolean setBit(String key, long offset, boolean value){
+        return redisTemplate.opsForValue().setBit(key, offset, value);
+    }
+
+    public String bitCount(String key, long start, long end) {
+        Long execute = redisTemplate.execute((RedisCallback<Long>)
+            connection -> connection.stringCommands().bitCount(key.getBytes(), start, end)
+        );
+        return execute.toString();
+    }
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
     }
@@ -71,6 +82,7 @@ public class RedisService {
     public Map<Object, Object> hGetAll(String key) {
         return redisTemplate.opsForHash().entries(key);
     }
+
 
     public void hPutAll(String key, Map<String, String> map) {
         redisTemplate.opsForHash().putAll(key, map);
@@ -138,7 +150,15 @@ public class RedisService {
     }
 
 
-    public void executePipelined(List<String> keys, List<Object> values) {
+    public Boolean eval(String script) {
+        return redisTemplate.execute((RedisCallback<Boolean>) connection ->
+            connection.scriptingCommands().eval(script.getBytes(StandardCharsets.UTF_8),
+                ReturnType.BOOLEAN,
+                0)
+        );
+    }
+
+    public void executePipelined(List<String> keys, List<?> values) {
         redisTemplate.executePipelined((RedisCallback<Void>) connection -> {
 
             for (int i = 0; i < keys.size(); i++) {
@@ -149,9 +169,9 @@ public class RedisService {
                 } else if (values.get(i) instanceof Map<?, ?>) {
                     connection.hashCommands()
                         .hMSet(keys.get(i).getBytes(StandardCharsets.UTF_8),
-                            ((Map<String, String>) values.get(i)).entrySet().stream().map(entry ->
-                                    new MapEntry(entry.getKey().getBytes(StandardCharsets.UTF_8),
-                                        entry.getValue().getBytes(StandardCharsets.UTF_8)))
+                            ((Map<Object, Object>) values.get(i)).entrySet().stream().map(entry ->
+                                    new MapEntry(entry.getKey().toString().getBytes(StandardCharsets.UTF_8),
+                                        entry.getValue().toString().getBytes(StandardCharsets.UTF_8)))
                                 .collect(Collectors.toMap(MapEntry::getKey, MapEntry::getValue)));
 
                 } else if (values.get(i) instanceof Set<?>) {

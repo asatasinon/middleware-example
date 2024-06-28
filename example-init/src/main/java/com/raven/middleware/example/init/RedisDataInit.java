@@ -1,12 +1,24 @@
 package com.raven.middleware.example.init;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
 
 import com.raven.middleware.example.api.IDataInit;
+import com.raven.middleware.example.database.constant.RedisKeyConstant;
 import com.raven.middleware.example.database.service.RedisService;
+import com.raven.middleware.example.util.JacksonUtils;
 
 /**
  * @author raven
@@ -18,28 +30,18 @@ import com.raven.middleware.example.database.service.RedisService;
 @Component
 public class RedisDataInit implements IDataInit {
 
-    // 全局计数器
-    public static final String DATA_HAS_INITIALIZED = "data:has:initialized";
-
-    // 全局计数器
-    public static final String REDIS_GLOBAL_COUNTER_KEY = "counter:001";
-
-    // 点赞数
-    public static final String REDIS_STAR_COUNT_KEY = "star:001";
-
-    // 登录签到 key
-    public static final String REDIS_SIGN_IN_KEY = "sign:2024:001";
-
-    // 缓存 key
-    public static final String REDIS_CACHE_KEY = "cache:admin:raven";
-
-
     @Autowired
     private RedisService redisService;
 
+    @Value("${config.computerSkuPath:data/computer-sku.json}")
+    private String computerSkuPath;
+
+    @Value("${config.redisDataInitScriptPath:scripts/redis-data-init.lua}")
+    private String redisDataInitScriptPath;
+
     @Override
     public boolean checkInitialized() {
-        boolean setNxSuccess = redisService.setNx(DATA_HAS_INITIALIZED, "1");
+        boolean setNxSuccess = redisService.setNx(RedisKeyConstant.DATA_HAS_INITIALIZED, "1");
         log.info("RedisDataInit preInitData hasInit:{}", !setNxSuccess);
         return setNxSuccess;
     }
@@ -51,19 +53,45 @@ public class RedisDataInit implements IDataInit {
 
     @Override
     public void postInitData() throws Exception {
-        // 初始化全局计数器
-        redisService.set(REDIS_GLOBAL_COUNTER_KEY, "0");
-        //  初始化点赞数
-        redisService.set(REDIS_STAR_COUNT_KEY, "0");
-        // 初始化登录签到
-        redisService.set(REDIS_SIGN_IN_KEY, "");
-        // 初始化缓存
-        redisService.set(REDIS_CACHE_KEY, "id=001");
+        String redisDataInitScript = getRedisDataInitScript();
+        Boolean scriptResult = redisService.eval(redisDataInitScript);
+        log.info("RedisDataInit postInitData scriptResult:{}", scriptResult);
+
+        // 初始化商品sku信息
+//        List<Map> skuList = getSkuList();
+//        redisService.executePipelined(
+//            skuList.stream().map(sku -> String.format(RedisKeyConstant.REDIS_SKU_KEY, sku.get("id").toString()))
+//                .collect(Collectors.toList()),
+//            skuList);
 
         log.info("RedisDataInit postInitData");
+
     }
+
     @Override
     public void afterInitData() throws Exception {
         log.info("RedisDataInit afterInitData");
+    }
+
+    public List<Map> getSkuList() {
+        try {
+            ClassPathResource resource = new ClassPathResource(computerSkuPath);
+            return JacksonUtils.json2list(resource.getInputStream(), Map.class);
+
+        } catch (Exception e) {
+            log.error("readConfig error", e);
+        }
+        return new ArrayList<>();
+    }
+
+    public String getRedisDataInitScript() {
+        try {
+            ClassPathResource resource = new ClassPathResource(redisDataInitScriptPath);
+            return new String(resource.getInputStream().readAllBytes());
+
+        } catch (Exception e) {
+            log.error("readConfig error", e);
+        }
+        return "";
     }
 }

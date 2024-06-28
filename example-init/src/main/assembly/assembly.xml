@@ -25,7 +25,8 @@
                 <include>*.xml</include>
                 <include>*.properties</include>
                 <!--可以自己添加配置文件-->
-                <include>common/*.properties</include>
+                <include>data/*.json</include>
+                <include>scripts/*.lua</include>
             </includes>
             <excludes>
                 <exclude>assembly.xml</exclude>

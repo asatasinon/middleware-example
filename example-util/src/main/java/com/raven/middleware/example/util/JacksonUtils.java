@@ -1,5 +1,6 @@
-package com.raven.middleware.example.server.util;
+package com.raven.middleware.example.util;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -186,6 +187,8 @@ public class JacksonUtils {
         return map;
     }
 
+
+
     /**
      * 与javaBean json数组字符串转换为列表
      */
@@ -196,6 +199,15 @@ public class JacksonUtils {
         return lst;
     }
 
+    /**
+     * 与javaBean json数组字符串转换为列表
+     */
+    public static <T> List<T> json2list(InputStream src, Class<T> clazz) throws Exception {
+
+        JavaType javaType = getCollectionType(ArrayList.class, clazz);
+        List<T> lst = (List<T>) objectMapper.readValue(src, javaType);
+        return lst;
+    }
 
     /**
      * 获取泛型的Collection Type
