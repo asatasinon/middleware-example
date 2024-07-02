@@ -61,11 +61,10 @@ public class RedisService {
         return redisTemplate.opsForValue().setBit(key, offset, value);
     }
 
-    public String bitCount(String key, long start, long end) {
-        Long execute = redisTemplate.execute((RedisCallback<Long>)
+    public Long bitCount(String key, long start, long end) {
+        return redisTemplate.execute((RedisCallback<Long>)
             connection -> connection.stringCommands().bitCount(key.getBytes(), start, end)
         );
-        return execute.toString();
     }
     public Object get(String key) {
         return redisTemplate.opsForValue().get(key);
@@ -197,6 +196,5 @@ public class RedisService {
             this.key = key;
             this.value = value;
         }
-
     }
 }

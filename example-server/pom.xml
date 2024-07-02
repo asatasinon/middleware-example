@@ -50,6 +50,11 @@
             <groupId>com.raven.middleware.example</groupId>
             <artifactId>example-database</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.raven.middleware.example</groupId>
+            <artifactId>example-util</artifactId>
+        </dependency>
     </dependencies>
 
 

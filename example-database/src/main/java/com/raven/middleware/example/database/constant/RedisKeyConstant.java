@@ -42,4 +42,15 @@ public abstract class RedisKeyConstant {
     // 排行榜信息, 格式: rank:排行榜名称
     public static final String REDIS_RANK_KEY = "rank:%s";
 
+    // 访问次数限制:ip, 格式: limit:ip:ip地址
+    public static final String REDIS_IP_LIMIT_KEY = "limit:ip:%s";
+
+    // 热点新闻, 格式: hot:news:date
+    public static final String REDIS_HOT_NEWS_KEY = "hot:news:%s";
+
+
+    public static String formatKey(String key, Object... args) {
+        return String.format(key, args);
+    }
+
 }
