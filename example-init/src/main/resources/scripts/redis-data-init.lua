@@ -66,25 +66,25 @@ redis.call('hset', 'shopping:cart:1002', 2, 1)
 redis.call('hset', 'shopping:cart:1003', 3, 1)
 
 -- 初始化用户信息, redis 中的用户信息是 hash, 可以直接进行增删改查操作
--- key: user:${userId} field: ${field} value: ${value}
--- 使用 hset user:${userId} ${field} ${value} 可以设置用户信息
--- 使用 hmset user:${userId} ${field1} ${value1} ${field2} ${value2} 可以批量设置单个用户的多个信息
--- 使用 hget user:${userId} ${field} 可以查询用户信息
--- 使用 hdel user:${userId} ${field} 可以删除用户信息
--- 使用 hgetall user:${userId} 可以查询用户所有信息
+-- key: user:info:${userId} field: ${field} value: ${value}
+-- 使用 hset user:info:${userId} ${field} ${value} 可以设置用户信息
+-- 使用 hmset user:info:${userId} ${field1} ${value1} ${field2} ${value2} 可以批量设置单个用户的多个信息
+-- 使用 hget user:info:${userId} ${field} 可以查询用户信息
+-- 使用 hdel user:info:${userId} ${field} 可以删除用户信息
+-- 使用 hgetall user:info:${userId} 可以查询用户所有信息
 -- 样例:
--- 设置用户信息: hmset user:1001 name '张三' age 18 address '广州'
--- 查询用户 1001 的姓名: hget user:1001 name
-redis.call('hmset', 'user:1001', 'name', '张三', 'age', 18, 'address', '广州')
-redis.call('hmset', 'user:1002', 'name', '李四', 'age', 20, 'address', '深圳')
-redis.call('hmset', 'user:1003', 'name', '王五', 'age', 22, 'address', '上海')
-redis.call('hmset', 'user:1004', 'name', '赵六', 'age', 24, 'address', '北京')
-redis.call('hmset', 'user:1005', 'name', '孙七', 'age', 26, 'address', '杭州')
-redis.call('hmset', 'user:1006', 'name', '周八', 'age', 28, 'address', '南京')
-redis.call('hmset', 'user:1007', 'name', '吴九', 'age', 30, 'address', '武汉')
-redis.call('hmset', 'user:1008', 'name', '郑十', 'age', 32, 'address', '成都')
-redis.call('hmset', 'user:1009', 'name', '钱十一', 'age', 34, 'address', '重庆')
-redis.call('hmset', 'user:1010', 'name', '孔十二', 'age', 36, 'address', '西安')
+-- 设置用户信息: hmset user:info:1001 name '张三' age 18 address '广州'
+-- 查询用户 1001 的姓名: hget user:info:1001 name
+redis.call('hmset', 'user:info:1001', 'name', '张三', 'age', 18, 'address', '广州')
+redis.call('hmset', 'user:info:1002', 'name', '李四', 'age', 20, 'address', '深圳')
+redis.call('hmset', 'user:info:1003', 'name', '王五', 'age', 22, 'address', '上海')
+redis.call('hmset', 'user:info:1004', 'name', '赵六', 'age', 24, 'address', '北京')
+redis.call('hmset', 'user:info:1005', 'name', '孙七', 'age', 26, 'address', '杭州')
+redis.call('hmset', 'user:info:1006', 'name', '周八', 'age', 28, 'address', '南京')
+redis.call('hmset', 'user:info:1007', 'name', '吴九', 'age', 30, 'address', '武汉')
+redis.call('hmset', 'user:info:1008', 'name', '郑十', 'age', 32, 'address', '成都')
+redis.call('hmset', 'user:info:1009', 'name', '钱十一', 'age', 34, 'address', '重庆')
+redis.call('hmset', 'user:info:1010', 'name', '孔十二', 'age', 36, 'address', '西安')
 
 -- 初始化商品信息, redis 中的商品信息是 hash, 可以直接进行增删改查操作
 -- key: sku:${productId} field: ${field} value: ${value}
@@ -157,6 +157,13 @@ redis.call('sadd', 'user:follow:1001', 1002, 1003, 1004)
 redis.call('sadd', 'user:follow:1002', 1001, 1003, 1004, 1005, 1006)
 redis.call('sadd', 'user:follow:1003', 1001, 1004, 1005, 1007, 1008, 1009)
 redis.call('sadd', 'user:follow:1004', 1001, 1003, 1005, 1008, 1009, 1010)
+redis.call('sadd', 'user:follow:1005', 1001, 1003, 1005,  1009, 1010)
+redis.call('sadd', 'user:follow:1006', 1001, 1002, 1003, 1004, 1005, 1008, 1010)
+redis.call('sadd', 'user:follow:1007', 1001, 1002, 1003, 1004, 1005,  1010)
+redis.call('sadd', 'user:follow:1008', 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1009, 1010)
+redis.call('sadd', 'user:follow:1009', 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1010)
+redis.call('sadd', 'user:follow:1010', 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009)
+
 
 -- 初始化商品标签, redis 中的商品标签是集合, 可以直接进行增删查操作
 -- key: product:tag:${productId} value: ${tag}

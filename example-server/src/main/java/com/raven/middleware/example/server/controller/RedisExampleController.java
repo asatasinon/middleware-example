@@ -1,5 +1,6 @@
 package com.raven.middleware.example.server.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -119,7 +120,7 @@ public class RedisExampleController {
     /**
      * 增加新闻热度
      * 请求方式: POST
-     * 请求参数: newsId (暂时用的标题代替)
+     * 请求参数:  date, newsId, score
      * 返回值: 热度增加结果
      * 样例: /redis/hot-news
      * 请求体: {"date":"20240621","newsId":"news1","score":1.0}
@@ -130,6 +131,81 @@ public class RedisExampleController {
             data.get("date").toString(),
             data.get("newsId").toString(),
             Double.parseDouble(data.get("score").toString()));
+    }
+
+    /**
+     * 点赞
+     * 请求方式: GET
+     * 请求参数: userId
+     * 返回值: 点赞数
+     * 样例: /redis/star/1001
+     */
+    @GetMapping("/star/{userId}")
+    public String getStarCount(@PathVariable("userId") String userId) {
+        return redisExampleService.getStarCount(userId);
+    }
+
+    /**
+     * 获取用户关注信息
+     * 请求方式: GET
+     * 请求参数: userId
+     * 返回值: 关注信息
+     * 样例: /redis/user-follow/1001
+     */
+    @GetMapping("/user-follow/{userId}")
+    public String getUserFollow(@PathVariable("userId") String userId) {
+        return redisExampleService.getUserFollow(userId);
+    }
+
+    /**
+     * 关注用户
+     * 请求方式: Post
+     * 请求参数: userId, followUserId
+     * 返回值: 关注信息
+     * 样例: /redis/user-follow/1001
+     * 请求体: {"userId": "1001", "followUserId": "1002"}
+     */
+    @PostMapping("/user-follow")
+    public String followUser(@RequestBody Map<String, String> data) {
+        return redisExampleService.followUser(data.get("userId"), data.get("followUserId"));
+    }
+
+    /**
+     * 获取共同关注的用户
+     * 请求方式: post
+     * 请求参数: userIds
+     * 返回值: 共同关注的用户
+     * 样例: /redis/common-follow
+     * 请求体: {"userIds": ["1001", "1002"]}
+     */
+    @PostMapping("/common-follow")
+    public String getCommonFollow(@RequestBody Map<String, Object> data) {
+        return redisExampleService.getCommonFollow(((List<String>) data.get("userIds")).toArray(new String[0]));
+    }
+
+
+    /**
+     * 是否互相关注
+     * 请求方式: get
+     * 请求参数: userId1, userId2
+     * 返回值: 是否互相关注
+     * 样例: /redis/is-mutual-follow?userId1=1001&userId2=1002
+     */
+    @GetMapping("/is-mutual-follow")
+    public String isMutualFollow(@RequestParam String userId1, @RequestParam String userId2) {
+        return redisExampleService.isMutualFollow(userId1, userId2);
+    }
+
+    /**
+     * 可能认识的人
+     * 请求方式: get
+     * 请求参数: userId
+     * 返回值: 可能认识的人
+     * 样例: /redis/may-know?userId=1001
+     */
+    @GetMapping("/may-know")
+    public String mayKnow(@RequestParam String userId) {
+        return redisExampleService.mayKnow(userId);
     }
 
 }
